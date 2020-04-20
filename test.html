@@ -57,9 +57,12 @@
 
     timeline.push(debrief_block);
 
+    var audio = ['sound/speech_red.mp3'];
+
     /* start the experiment */
     jsPsych.init({
         timeline: timeline,
+        preload_audio: audio,
         use_webaudio: false,
         on_finish: function(){jsPsych.data.displayData();}
     });

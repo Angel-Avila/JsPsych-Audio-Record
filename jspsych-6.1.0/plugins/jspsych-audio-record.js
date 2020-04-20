@@ -75,11 +75,7 @@
                 source.connect(context.destination);
             } else {
                 var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
-                if(audio!=null) {
-                    audio.currentTime = 0;
-                } else {
-                    console.log("AUDIO IS NULL AGAIN :(");
-                }
+                audio.currentTime = 0;
             }
     
             const recorder = new MicRecorder({
@@ -106,6 +102,14 @@
             var htmlButton =  display_element.querySelector('button');
 
             htmlButton.addEventListener('click', startRecording);
+
+            // start audio
+    if(context !== null){
+        startTime = context.currentTime;
+        source.start(startTime);
+      } else {
+        audio.play();
+      }
 
             function startRecording() {
                 recorder.start().then(() => {
