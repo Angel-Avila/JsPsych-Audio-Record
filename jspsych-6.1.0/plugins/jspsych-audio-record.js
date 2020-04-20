@@ -2,7 +2,7 @@
     
     const MicRecorder = require('mic-recorder-to-mp3');
     
-    jsPsych.plugins['audio-record'] = (function(){
+    jsPsych.plugins["audio-record"] = (function(){
     
         var plugin = {};
     
@@ -70,12 +70,16 @@
             // setup stimulus
             var context = jsPsych.pluginAPI.audioContext();
             if(context !== null){
-              var source = context.createBufferSource();
-              source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
-              source.connect(context.destination);
+                var source = context.createBufferSource();
+                source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
+                source.connect(context.destination);
             } else {
-            //   var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
-            //   audio.currentTime = 0;
+                var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
+                if(audio!=null) {
+                    audio.currentTime = 0;
+                } else {
+                    console.log("AUDIO IS NULL AGAIN :(");
+                }
             }
     
             const recorder = new MicRecorder({
@@ -96,7 +100,7 @@
             }
 
             html += '<button class="btn btn-primary">Start recording</button>';
-    
+            html += '<ul id="playlist"></ul>';
             display_element.innerHTML = html;
     
             var htmlButton =  display_element.querySelector('button');
@@ -115,32 +119,41 @@
             }
         
             function stopRecording() {
-                    recorder.stop().getMp3().then(([buffer, blob]) => {
+                recorder.stop().getMp3().then(([buffer, blob]) => {
                     console.log(buffer, blob);
                     const file = new File(buffer, 'music.mp3', {
                         type: blob.type,
                         lastModified: Date.now()
                     });
             
-                    html += '<ul id="playlist">';
+                    htmlButton.textContent = 'Start recording';
+                    htmlButton.classList.toggle('btn-danger');
+                    htmlButton.removeEventListener('click', stopRecording);
+                    htmlButton.addEventListener('click', startRecording);
 
-                    html += '</ul>';
-                    
-
-
-                    const li = display_element.createElement('li');
-                    const player = new Audio(URL.createObjectURL(file));
-                    player.controls = true;
-                    li.appendChild(player);
-                    display_element.querySelector('#playlist').appendChild(li);
+                    // stop the audio file if it is playing
+                    // remove end event listeners if they exist
+                    if(context !== null){
+                        source.stop();
+                        source.onended = function() { }
+                    }
+        
+                    // kill any remaining setTimeout handlers
+                    jsPsych.pluginAPI.clearAllTimeouts();
             
-                    button.textContent = 'Start recording';
-                    button.classList.toggle('btn-danger');
-                    button.removeEventListener('click', stopRecording);
-                    button.addEventListener('click', startRecording);
+                    // gather the data to store for the trial
+                    var trial_data = {
+                        "rt": response.rt,
+                        "stimulus": trial.stimulus,
+                        "audio": file
+                    };
+            
+                    // move on to the next trial
+                    jsPsych.finishTrial(trial_data);
+
                     }).catch((e) => {
                     console.error(e);
-                    });
+                });
               }
 
             // store response
@@ -153,37 +166,6 @@
             function after_response(choice) {
         
             };
-        
-            // function to end trial when it is time
-            function end_trial() {
-        
-                    // stop the audio file if it is playing
-                    // remove end event listeners if they exist
-                    if(context !== null){
-                        source.stop();
-                        source.onended = function() { }
-                    } else {
-                        audio.pause();
-                        audio.removeEventListener('ended', end_trial);
-                    }
-        
-                // kill any remaining setTimeout handlers
-                jsPsych.pluginAPI.clearAllTimeouts();
-        
-                // gather the data to store for the trial
-                var trial_data = {
-                "rt": response.rt,
-                "stimulus": trial.stimulus,
-                "button_pressed": response.button
-                };
-        
-                // clear the display
-                display_element.innerHTML = '';
-        
-                // move on to the next trial
-                jsPsych.finishTrial(trial_data);
-            };
-
     
         };
     

@@ -5,37 +5,63 @@
     <script src="jspsych-6.1.0/jspsych.js"></script>
     <script src="jspsych-6.1.0/plugins/other-plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/other-plugins/jspsych-html-button-response.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-audio-button-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-audio-record.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body></body>
 <script>
 
-  /* create timeline */
-  var timeline = [];
+    /* create timeline */
+    var timeline = [];
 
-  timeline.push({
-    type: 'html-button-response',
-    stimulus: 'Recent versions of Chrome require the user to interact with a page before it can play audio. '+
-    'Clicking the button below counts as an interaction. Be aware of this when planning audio experiments if '+
-    'you want the first trial to include audio.',
-    choices: ['Continue']
-  });
+    timeline.push({
+        type: 'html-button-response',
+        stimulus: 'Recent versions of Chrome require the user to interact with a page before it can play audio. '+
+        'Clicking the button below counts as an interaction. Be aware of this when planning audio experiments if '+
+        'you want the first trial to include audio.',
+        choices: ['Continue']
+    });
 
-  var record = {
+    timeline.push({
+        type: 'audio-button-response',
+        stimulus: 'sound/speech_blue.mp3',
+        choices: ['Green', 'Blue', 'Red'],
+        prompt: "<p>What word was said?</p>"
+    });
+
+    var record = {
         type: "audio-record",
-        stimulus: 'speech_red.mp3',
+        stimulus: "sound/speech_red.mp3",
         button_text: 'Submit',
-        trial_duration: 2000,
         prompt: "<p>What word was said? (trial ends after 2s)</p>"
-  }
-  timeline.push(record);
+    }
+    timeline.push(record);
 
-  /* start the experiment */
-  jsPsych.init({
-    timeline: timeline,
-    use_webaudio: false,
-    on_finish: function(){jsPsych.data.displayData();}
-  });
+    var debrief_block = {
+        type: "html-keyboard-response",
+        stimulus: function() {
+
+            var trials = jsPsych.data.get().filter({test_part: 'record'});
+
+            var binaryData = [];
+            binaryData.push(trials[0]);
+            const player = new Audio(URL.createObjectURL(new Blob(binaryData, {type: "application/zip"})));
+            player.controls = true;
+            console.log("pito");
+            console.log(player);
+
+            return player.outerHTML;
+        }
+    };
+
+    timeline.push(debrief_block);
+
+    /* start the experiment */
+    jsPsych.init({
+        timeline: timeline,
+        use_webaudio: false,
+        on_finish: function(){jsPsych.data.displayData();}
+    });
 </script>
 </html>
