@@ -4,6 +4,7 @@
     <title>My experiment</title>
     <script src="jspsych-6.1.0/jspsych.js"></script>
     <script src="jspsych-6.1.0/plugins/other-plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.1.0/plugins/other-plugins/jspsych-audio-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/other-plugins/jspsych-html-button-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-audio-button-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-audio-record.js"></script>
@@ -17,18 +18,26 @@
 
     timeline.push({
         type: 'html-button-response',
-        stimulus: 'Recent versions of Chrome require the user to interact with a page before it can play audio. '+
-        'Clicking the button below counts as an interaction. Be aware of this when planning audio experiments if '+
-        'you want the first trial to include audio.',
+        stimulus: "You will hear a recording next.<br />Listen carefully and when it's finished, you will" +
+                  "automatically begin the next trial.",
         choices: ['Continue'],
+        margin_vertical: '20px',
         data: {test_part: 'test'}
+    });
+
+    timeline.push({
+        type: 'audio-keyboard-response',
+        stimulus: 'sound/control_text.mp3',
+        choices: jsPsych.NO_KEYS,
+        trial_duration: 35000,
+        prompt: '<p>No response allowed.<br />Wait 35s until the recording finishes.</p>'
     });
 
     var record = {
         type: "audio-record",
-        stimulus: "sound/control_text.mp3",
-        prompt: "<p>Listen to this recording and then press the button below to answer the following question.<br />" +
-                "What do you remember from the story?</p>",
+        stimulus: "sound/speech_red.mp3",
+        prompt: "<p>What do you remember from the story?<br /> Press the button below to start recording " +
+                "and press it again to stop. </p>",
         data: {test_part: 'record'}
     }
     timeline.push(record);
@@ -45,12 +54,15 @@
             player.controls = true;
 
             return player.outerHTML;
-        }
+        },
+        prompt: "<p>Listen to your recording here, you can also download it if you'd like.<br />" +
+                "Press X to finish the trial.</p>",
+        choices: ['x'],
     };
 
     timeline.push(debrief_block);
 
-    var audio = ['sound/control_text.mp3'];
+    var audio = ['sound/speech_red.mp3'];
 
     /* start the experiment */
     jsPsych.init({

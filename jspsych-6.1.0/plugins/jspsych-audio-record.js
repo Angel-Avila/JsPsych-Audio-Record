@@ -12,12 +12,6 @@
             name: 'audio-record',
             description: '',
             parameters: {
-                stimulus: {
-                    type: jsPsych.plugins.parameterType.AUDIO,
-                    pretty_name: 'Stimulus',
-                    default: undefined,
-                    description: 'The audio to be played.'
-                },
                 prompt: {
                     type: jsPsych.plugins.parameterType.STRING,
                     pretty_name: 'Prompt',
@@ -34,18 +28,7 @@
         }
         
         plugin.trial = function(display_element, trial) {
-    
-            // setup stimulus
-            var context = jsPsych.pluginAPI.audioContext();
-            if(context !== null){
-                var source = context.createBufferSource();
-                source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
-                source.connect(context.destination);
-            } else {
-                var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
-                audio.currentTime = 0;
-            }
-    
+        
             const recorder = new MicRecorder({
                 bitRate: 128
             });
@@ -64,14 +47,6 @@
             var htmlButton =  display_element.querySelector('button');
 
             htmlButton.addEventListener('click', startRecording);
-
-            // start audio
-            if(context !== null){
-                startTime = context.currentTime;
-                source.start(startTime);
-            } else {
-                audio.play();
-            }
 
             function startRecording() {
                 recorder.start().then(() => {
@@ -98,13 +73,6 @@
                     htmlButton.classList.toggle('btn-primary', true);
                     htmlButton.removeEventListener('click', stopRecording);
                     htmlButton.addEventListener('click', startRecording);
-
-                    // stop the audio file if it is playing
-                    // remove end event listeners if they exist
-                    if(context !== null){
-                        source.stop();
-                        source.onended = function() { }
-                    }
         
                     // kill any remaining setTimeout handlers
                     jsPsych.pluginAPI.clearAllTimeouts();
