@@ -5,121 +5,291 @@
  * experiments look polished without any additional styles.
  */
 
- @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
 
 /* Container holding jsPsych content */
 
- .jspsych-display-element {
-   display: flex;
-   flex-direction: column;
-   overflow-y: auto;
- }
+.jspsych-display-element {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
 
- .jspsych-display-element:focus {
-   outline: none;
- }
+.jspsych-display-element:focus {
+    outline: none;
+}
 
- .jspsych-content-wrapper {
-   display: flex;
-   margin: auto;
-   flex: 1 1 100%;
-   width: 100%;
- }
+.jspsych-content-wrapper {
+    display: flex;
+    margin: auto;
+    flex: 1 1 100%;
+    width: 100%;
+}
 
- .jspsych-content {
-   max-width: 95%; /* this is mainly an IE 10-11 fix */
-   text-align: center;
-   margin: auto; /* this is for overflowing content */
- }
+.jspsych-content {
+    max-width: 95%;
+    /* this is mainly an IE 10-11 fix */
+    text-align: center;
+    margin: auto;
+    /* this is for overflowing content */
+}
 
- .jspsych-top {
-   align-items: flex-start;
- }
+.jspsych-top {
+    align-items: flex-start;
+}
 
- .jspsych-middle {
-   align-items: center;
- }
+.jspsych-middle {
+    align-items: center;
+}
+
 
 /* fonts and type */
 
 .jspsych-display-element {
-  font-family: 'Open Sans', 'Arial', sans-serif;
-  font-size: 18px;
-  line-height: 1.6em;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    font-size: 18px;
+    line-height: 1.6em;
 }
+
 
 /* Form elements like input fields and buttons */
 
 .jspsych-display-element input[type="text"] {
-  font-family: 'Open Sans', 'Arial', sans-serif;
-  font-size: 14px;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    font-size: 14px;
 }
 
+
 /* borrowing Bootstrap style for btn elements, but combining styles a bit */
+
 .jspsych-btn {
-  display: inline-block;
-  padding: 6px 12px;
-  margin: 0px;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: 'Open Sans', 'Arial', sans-serif;
-  cursor: pointer;
-  line-height: 1.4;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    cursor: pointer;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
 }
 
 .jspsych-btn:hover {
-  background-color: #ddd;
-  border-color: #aaa;
+    background-color: #ddd;
+    border-color: #aaa;
 }
 
 .jspsych-btn:disabled {
-  background-color: #eee;
-  color: #aaa;
-  border-color: #ccc;
-  cursor: not-allowed;
+    background-color: #eee;
+    color: #aaa;
+    border-color: #ccc;
+    cursor: not-allowed;
 }
+
 
 /* jsPsych progress bar */
 
 #jspsych-progressbar-container {
-  color: #555;
-  border-bottom: 1px solid #dedede;
-  background-color: #f9f9f9;
-  margin-bottom: 1em;
-  text-align: center;
-  padding: 8px 0px;
-  width: 100%;
-  line-height: 1em;
-}
-#jspsych-progressbar-container span {
-  font-size: 14px;
-  padding-right: 14px;
-}
-#jspsych-progressbar-outer {
-  background-color: #eee;
-  width: 50%;
-  margin: auto;
-  height: 14px;
-  display: inline-block;
-  vertical-align: middle;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-}
-#jspsych-progressbar-inner {
-  background-color: #aaa;
-  width: 0%;
-  height: 100%;
+    color: #555;
+    border-bottom: 1px solid #dedede;
+    background-color: #f9f9f9;
+    margin-bottom: 1em;
+    text-align: center;
+    padding: 8px 0px;
+    width: 100%;
+    line-height: 1em;
 }
 
+#jspsych-progressbar-container span {
+    font-size: 14px;
+    padding-right: 14px;
+}
+
+#jspsych-progressbar-outer {
+    background-color: #eee;
+    width: 50%;
+    margin: auto;
+    height: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#jspsych-progressbar-inner {
+    background-color: #aaa;
+    width: 0%;
+    height: 100%;
+}
+
+
 /* Control appearance of jsPsych.data.displayData() */
+
 #jspsych-data-display {
-  text-align: left;
+    text-align: left;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    cursor: pointer;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-danger.focus,
+.btn-danger:focus {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #761c19
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925
+}
+
+.btn-danger.active,
+.btn-danger:active,
+.open>.dropdown-toggle.btn-danger {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925
+}
+
+.btn-danger.active.focus,
+.btn-danger.active:focus,
+.btn-danger.active:hover,
+.btn-danger:active.focus,
+.btn-danger:active:focus,
+.btn-danger:active:hover,
+.open>.dropdown-toggle.btn-danger.focus,
+.open>.dropdown-toggle.btn-danger:focus,
+.open>.dropdown-toggle.btn-danger:hover {
+    color: #fff;
+    background-color: #ac2925;
+    border-color: #761c19
+}
+
+.btn-danger.active,
+.btn-danger:active,
+.open>.dropdown-toggle.btn-danger {
+    background-image: none
+}
+
+.btn-danger.disabled.focus,
+.btn-danger.disabled:focus,
+.btn-danger.disabled:hover,
+.btn-danger[disabled].focus,
+.btn-danger[disabled]:focus,
+.btn-danger[disabled]:hover,
+fieldset[disabled] .btn-danger.focus,
+fieldset[disabled] .btn-danger:focus,
+fieldset[disabled] .btn-danger:hover {
+    background-color: #d9534f;
+    border-color: #d43f3a
+}
+
+.btn-danger .badge {
+    color: #d9534f;
+    background-color: #fff
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    cursor: pointer;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-primary.focus,
+.btn-primary:focus {
+    color: #fff;
+    background-color: #286090;
+    border-color: #122b40
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74
+}
+
+.btn-primary.active,
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74
+}
+
+.btn-primary.active.focus,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary:active.focus,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.open>.dropdown-toggle.btn-primary.focus,
+.open>.dropdown-toggle.btn-primary:focus,
+.open>.dropdown-toggle.btn-primary:hover {
+    color: #fff;
+    background-color: #204d74;
+    border-color: #122b40
+}
+
+.btn-primary.active,
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary {
+    background-image: none
+}
+
+.btn-primary.disabled.focus,
+.btn-primary.disabled:focus,
+.btn-primary.disabled:hover,
+.btn-primary[disabled].focus,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary.focus,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary:hover {
+    background-color: #337ab7;
+    border-color: #2e6da4
+}
+
+.btn-primary .badge {
+    color: #337ab7;
+    background-color: #fff
 }

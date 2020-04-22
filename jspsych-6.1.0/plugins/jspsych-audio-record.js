@@ -18,20 +18,6 @@
                     default: undefined,
                     description: 'The audio to be played.'
                 },
-                button_text: {
-                    type: jsPsych.plugins.parameterType.STRING,
-                    pretty_name: 'Button text',
-                    default: undefined,
-                    array: true,
-                    description: 'The text to be displayed in the button.'
-                },
-                button_html: {
-                    type: jsPsych.plugins.parameterType.HTML_STRING,
-                    pretty_name: 'Button HTML',
-                    default: '<button class="jspsych-btn">%button%</button>',
-                    array: true,
-                    description: 'Custom button. Can make your own style.'
-                },
                 prompt: {
                     type: jsPsych.plugins.parameterType.STRING,
                     pretty_name: 'Prompt',
@@ -43,25 +29,7 @@
                     pretty_name: 'Trial duration',
                     default: null,
                     description: 'The maximum duration to wait for a response.'
-                },
-                margin_vertical: {
-                    type: jsPsych.plugins.parameterType.STRING,
-                    pretty_name: 'Margin vertical',
-                    default: '0px',
-                    description: 'Vertical margin of button.'
-                },
-                margin_horizontal: {
-                    type: jsPsych.plugins.parameterType.STRING,
-                    pretty_name: 'Margin horizontal',
-                    default: '8px',
-                    description: 'Horizontal margin of button.'
-                },
-                response_ends_trial: {
-                    type: jsPsych.plugins.parameterType.BOOL,
-                    pretty_name: 'Response ends trial',
-                    default: true,
-                    description: 'If true, the trial will end when user makes a response.'
-                },
+                }
             }
         }
         
@@ -81,14 +49,8 @@
             const recorder = new MicRecorder({
                 bitRate: 128
             });
-        
-            //display buttons
-            var button = trial.button_html;
-        
-            var html = '<div id="jspsych-audio-button-response-btngroup">';
-            var str = button.replace(/%button%/g, trial.button_text);
-            html += '<div class="jspsych-audio-button-response-button" style="cursor: pointer; display: inline-block; margin:'+trial.margin_vertical+' '+trial.margin_horizontal+'" id="jspsych-audio-button-response-button-'+str+'</div>';
-            html += '</div>';
+                
+            var html = '';
     
             //show prompt if there is one
             if (trial.prompt !== null) {
@@ -104,17 +66,18 @@
             htmlButton.addEventListener('click', startRecording);
 
             // start audio
-    if(context !== null){
-        startTime = context.currentTime;
-        source.start(startTime);
-      } else {
-        audio.play();
-      }
+            if(context !== null){
+                startTime = context.currentTime;
+                source.start(startTime);
+            } else {
+                audio.play();
+            }
 
             function startRecording() {
                 recorder.start().then(() => {
                     htmlButton.textContent = 'Stop recording';
-                    htmlButton.classList.toggle('btn-danger');
+                    htmlButton.classList.toggle('btn-primary');
+                    htmlButton.classList.toggle('btn-danger', true);
                     htmlButton.removeEventListener('click', startRecording);
                     htmlButton.addEventListener('click', stopRecording);
                 }).catch((e) => {
@@ -132,6 +95,7 @@
             
                     htmlButton.textContent = 'Start recording';
                     htmlButton.classList.toggle('btn-danger');
+                    htmlButton.classList.toggle('btn-primary', true);
                     htmlButton.removeEventListener('click', stopRecording);
                     htmlButton.addEventListener('click', startRecording);
 
@@ -158,24 +122,16 @@
                     }).catch((e) => {
                     console.error(e);
                 });
-              }
+            }
 
             // store response
             var response = {
                 rt: null,
                 button: null
-            };
-        
-            // function to handle responses by the subject
-            function after_response(choice) {
-        
-            };
-    
+            };    
         };
     
-    
         return plugin;
-    
     })();
 
     /* 
